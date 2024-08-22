@@ -14,6 +14,13 @@ app.get("/test", (req, res) => {
 app.post("/api/contact", (req, res) => {
   const { email, reportData } = req.body;
 
+  console.log(proccess.env.EMAIL_USER);
+  console.log(proccess.env.EMAIL_PASS);
+
+  console.log(proccess.env.EMAIL_HOST);
+  console.log(proccess.env.EMAIL_PORT);
+  console.log(proccess.env.OWNER_EMAIL);
+
   if (!email) {
     return res.status(400).send("Email est requis");
   }
