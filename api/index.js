@@ -7,6 +7,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/test", (req, res) => {
+  res.send("Test de la route");
+});
+
 app.post("/api/contact", (req, res) => {
   const { email, reportData } = req.body;
 
