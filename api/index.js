@@ -28,8 +28,13 @@ app.post("/api/contact", (req, res) => {
   const { pack, modules, totalCost, selectedDeposit, selectedPaymentPlan } =
     reportData;
 
-  const depositAmount = (totalCost * selectedDeposit) / 100;
-  const paymentPlanAmount = (totalCost * selectedPaymentPlan) / 100;
+  const depositPercentage = parseFloat(selectedDeposit.replace("%", ""));
+  const depositAmount = (totalCost * depositPercentage) / 100;
+
+  const paymentPlanTimes = parseInt(
+    selectedPaymentPlan.replace("fois", "").trim()
+  );
+  const paymentPlanAmount = totalCost / paymentPlanTimes;
 
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -64,15 +69,15 @@ app.post("/api/contact", (req, res) => {
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Acompte choisi :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedDeposit}% (${depositAmount.toFixed(
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${depositPercentage}% (${depositAmount.toFixed(
     2
   )} €)</td>
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Paiement échelonné en :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedPaymentPlan}% (${paymentPlanAmount.toFixed(
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${paymentPlanTimes} fois (${paymentPlanAmount.toFixed(
     2
-  )} €)</td>
+  )} € par paiement)</td>
       </tr>
     </table>
 
@@ -110,15 +115,15 @@ app.post("/api/contact", (req, res) => {
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Acompte :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedDeposit}% (${depositAmount.toFixed(
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${depositPercentage}% (${depositAmount.toFixed(
     2
   )} €)</td>
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Paiement :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedPaymentPlan}% (${paymentPlanAmount.toFixed(
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${paymentPlanTimes} fois (${paymentPlanAmount.toFixed(
     2
-  )} €)</td>
+  )} € par paiement)</td>
       </tr>
     </table>
 
