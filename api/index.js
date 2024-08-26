@@ -25,16 +25,14 @@ app.post("/api/contact", (req, res) => {
     return res.status(400).send("Email est requis");
   }
 
-  const { pack, modules, totalCost, selectedDeposit, selectedPaymentPlan } =
-    reportData;
-
-  const depositPercentage = parseFloat(selectedDeposit.replace("%", ""));
-  const depositAmount = (totalCost * depositPercentage) / 100;
-
-  const paymentPlanTimes = parseInt(
-    selectedPaymentPlan.replace("fois", "").trim()
-  );
-  const paymentPlanAmount = (totalCost - depositAmount) / paymentPlanTimes;
+  const {
+    pack,
+    modules,
+    totalCost,
+    realEconomy,
+    selectedDeposit,
+    selectedPaymentPlan,
+  } = reportData;
 
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -68,16 +66,16 @@ app.post("/api/contact", (req, res) => {
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${totalCost} € HT</td>
       </tr>
       <tr>
+        <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Économie réelle avec options :</th>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${realEconomy} € HT</td>
+      </tr>
+      <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Acompte choisi :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${depositPercentage}% (${depositAmount.toFixed(
-    2
-  )} €)</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedDeposit}</td>
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Paiement échelonné en :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${paymentPlanTimes} fois (${paymentPlanAmount.toFixed(
-    2
-  )} € par paiement)</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedPaymentPlan}</td>
       </tr>
     </table>
 
@@ -114,16 +112,16 @@ app.post("/api/contact", (req, res) => {
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${totalCost} € HT</td>
       </tr>
       <tr>
+        <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Économie :</th>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${realEconomy} € HT</td>
+      </tr>
+      <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Acompte :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${depositPercentage}% (${depositAmount.toFixed(
-    2
-  )} €)</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedDeposit}</td>
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Paiement :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${paymentPlanTimes} fois (${paymentPlanAmount.toFixed(
-    2
-  )} € par paiement)</td>
+        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${selectedPaymentPlan}</td>
       </tr>
     </table>
 
