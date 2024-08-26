@@ -34,7 +34,7 @@ app.post("/api/contact", (req, res) => {
   const paymentPlanTimes = parseInt(
     selectedPaymentPlan.replace("fois", "").trim()
   );
-  const paymentPlanAmount = totalCost / paymentPlanTimes;
+  const paymentPlanAmount = (totalCost - depositAmount) / paymentPlanTimes;
 
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
