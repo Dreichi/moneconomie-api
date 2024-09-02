@@ -25,14 +25,8 @@ app.post("/api/contact", (req, res) => {
     return res.status(400).send("Email est requis");
   }
 
-  const {
-    pack,
-    modules,
-    totalCost,
-    realEconomy,
-    selectedDeposit,
-    selectedPaymentPlan,
-  } = reportData;
+  const { pack, modules, totalCost, selectedDeposit, selectedPaymentPlan } =
+    reportData;
 
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -64,10 +58,6 @@ app.post("/api/contact", (req, res) => {
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Coût total estimé :</th>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${totalCost} € HT</td>
-      </tr>
-      <tr>
-        <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Économie réelle avec options :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${realEconomy} € HT</td>
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Acompte choisi :</th>
@@ -110,10 +100,6 @@ app.post("/api/contact", (req, res) => {
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Total estimé :</th>
         <td style="padding: 8px; border-bottom: 1px solid #ddd;">${totalCost} € HT</td>
-      </tr>
-      <tr>
-        <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Économie :</th>
-        <td style="padding: 8px; border-bottom: 1px solid #ddd;">${realEconomy} € HT</td>
       </tr>
       <tr>
         <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Acompte :</th>
